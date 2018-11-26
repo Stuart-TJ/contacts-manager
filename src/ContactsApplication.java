@@ -76,7 +76,7 @@ public class ContactsApplication {
                     break;
                 // something else;
                 case 3:
-                    System.out.println("Searching...");
+                    searching(sc, contacts);
                     break;
                 // same
                 case 4:
@@ -117,6 +117,18 @@ public class ContactsApplication {
         String newContact = name + "," + phoneNo;
         contacts.add(newContact);
 
+    }
+
+    public static void searching(Scanner sc, List<String> contacts){
+        sc.nextLine();
+        System.out.println("Who would you like to search for?");
+        String userInput = sc.nextLine();
+        for(String contact: contacts){
+            if(contact.contains(userInput)){
+                String[] line = contact.split(",");
+                System.out.println(line[0]+ " | " +line[1]);
+            }
+        }
     }
 
     public static void main(String[] args) {
