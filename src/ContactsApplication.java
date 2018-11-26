@@ -82,21 +82,26 @@ public class ContactsApplication {
     }
 
     public static void viewContacts(){
-        Path p = Paths.get("data","contacts.txt")
-        List<String> allContacts = Files.readAllLines(p);
+        Path p = Paths.get("data","contacts.txt");
+        List<String> allContacts = null;
+        try {
+            allContacts = Files.readAllLines(p);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Name | Phone number");
         System.out.println("-------------------");
         for(int i=0; i < allContacts.size(); i += 1){
-//            line = allContacts(i).split(",")
-            System.out.println(allContacts(i));
+            String[] line = allContacts.get(i).split(",");
+            System.out.println(line[0]+ " | " +line[1]);
         }
     }
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-
         createFileAndDirectory(directory, filename);
+
+        Scanner sc = new Scanner(System.in);
 
         optionChooser(sc);
     }
