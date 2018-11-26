@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,6 +12,7 @@ public class ContactsApplication {
 
     public static String directory = "data";
     public static String filename = "contacts.txt";
+    public static Path filePath = Paths.get(directory, filename);
 
     public static void createFileAndDirectory(String location,String fileTitle){
         Path dataDirectory = Paths.get(location);
@@ -39,9 +43,21 @@ public class ContactsApplication {
         System.out.printf("%nEnter an option (1, 2, 3, 4, or 5): ");
     }
 
+    public static List<String> contactsArrayInit (Path filePath) {
+
+        List<String> allContacts = null;
+        try {
+            allContacts = Files.readAllLines(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return allContacts;
+    }
+
     public static void optionChooser (Scanner sc) {
 
         boolean userContinues = true;
+        List<String> contacts = contactsArrayInit(filePath);
 
         System.out.printf("%n%nWelcome to the Contacts Manager!%n");
         System.out.println("=========================");
@@ -52,12 +68,11 @@ public class ContactsApplication {
 
             switch (userChoice) {
                 case 1:
-                    System.out.println("You chose 1");
-                    viewContacts();
+                    viewContacts(filePath, contacts);
                     break;
                 // something;
                 case 2:
-                    System.out.println("Adding a contact...");
+                    addContact(sc, contacts);
                     break;
                 // something else;
                 case 3:
@@ -81,20 +96,27 @@ public class ContactsApplication {
 
     }
 
-    public static void viewContacts(){
-        Path p = Paths.get("data","contacts.txt");
-        List<String> allContacts = null;
-        try {
-            allContacts = Files.readAllLines(p);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void viewContacts(Path p, List<String> contacts){
+
         System.out.println("Name | Phone number");
         System.out.println("-------------------");
-        for(int i=0; i < allContacts.size(); i += 1){
-            String[] line = allContacts.get(i).split(",");
+        for(int i=0; i < contacts.size(); i += 1){
+            String[] line = contacts.get(i).split(",");
             System.out.println(line[0]+ " | " +line[1]);
         }
+    }
+
+    public static void addContact (Scanner sc, List<String> contacts) {
+
+        System.out.printf("%nName: ");
+        sc.nextLine();
+        String name = sc.nextLine();
+        System.out.printf("%nPhone Number: ");
+        int phoneNo = sc.nextInt();
+
+        String newContact = name + "," + phoneNo;
+        contacts.add(newContact);
+
     }
 
     public static void main(String[] args) {
