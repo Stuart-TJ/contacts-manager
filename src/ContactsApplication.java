@@ -84,6 +84,7 @@ public class ContactsApplication {
                     break;
                 // same
                 case 5:
+                    saveAndExit(filePath, contacts);
                     userContinues = false;
                     break;
             }
@@ -157,6 +158,16 @@ public class ContactsApplication {
         }
 
     }
+
+    public static void saveAndExit(Path p, List<String> contacts){
+        try {
+            Files.write(p,contacts);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public static void main(String[] args) {
 
