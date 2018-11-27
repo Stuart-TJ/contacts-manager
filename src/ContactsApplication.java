@@ -80,7 +80,7 @@ public class ContactsApplication {
                     break;
                 // same
                 case 4:
-                    System.out.println("Deleting contact!");
+                    deleting(sc, contacts);
                     break;
                 // same
                 case 5:
@@ -129,6 +129,33 @@ public class ContactsApplication {
                 System.out.println(line[0]+ " | " +line[1]);
             }
         }
+    }
+
+    public static void deleting(Scanner sc, List<String> contacts){
+        sc.nextLine();
+        System.out.println("Type a contacts full name you want to delete");
+        String userInput = sc.nextLine();
+        String toBeDeleted = "";
+        for(String contact: contacts){
+            String[] line = contact.split(",");
+            if(line[0].equalsIgnoreCase(userInput)){
+                toBeDeleted = contact;
+                break;
+            }
+        }
+        if(!toBeDeleted.equals("")){
+            System.out.println("Are you sure you want to delete this contact");
+            String userDeleteConfirmation = sc.nextLine();
+            if(userDeleteConfirmation.equalsIgnoreCase("y")){
+                contacts.remove(contacts.indexOf(toBeDeleted));
+                System.out.println("Contact deleted");
+            } else {
+                System.out.println("Deletion canceled");
+            }
+        } else {
+            System.out.println("No contact found");
+        }
+
     }
 
     public static void main(String[] args) {
